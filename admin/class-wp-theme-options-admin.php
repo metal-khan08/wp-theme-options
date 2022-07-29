@@ -100,4 +100,26 @@ class Wp_Theme_Options_Admin {
 
 	}
 
+	/**
+	 * Register Wp Theme options page.
+	 *
+	 * @since    1.0.0
+	 */
+	function wp_theme_options_settings_page(){
+		add_menu_page( 'WP Theme Options', 'Theme Options', 'manage_options', 'wp-theme-settings', array($this,'wp_theme_settings_html'), 'dashicons-admin-generic', 16 );
+	}
+
+	/**
+	 * Calback for options page.
+	 *
+	 * @since    1.0.0
+	 */
+	function wp_theme_settings_html(){
+	?>
+	<h1>
+		Test page
+	</h1>
+	<?php
+	}
+
 }

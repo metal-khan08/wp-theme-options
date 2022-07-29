@@ -15,7 +15,7 @@
  * @wordpress-plugin
  * Plugin Name:       WP Theme Options
  * Plugin URI:        wp-theme-options
- * Description:       This is a short description of what the plugin does. It's displayed in the WordPress admin area.
+ * Description:       This plugin is used to add theme options page to the wordpress.
  * Version:           1.0.0
  * Author:            All Marketing Solutions
  * Author URI:        //allmarketingsolutions.co.uk
