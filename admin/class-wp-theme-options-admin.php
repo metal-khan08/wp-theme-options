@@ -109,8 +109,9 @@ class Wp_Theme_Options_Admin {
 		add_menu_page( 'WP Theme Options', 'Theme Options', 'manage_options', 'wp-theme-settings', array($this,'wp_theme_settings_html'), 'dashicons-admin-generic', 16 );
 	}
 
+
 	/**
-	 * Calback for options page.
+	 * Calback for options page.z
 	 *
 	 * @since    1.0.0
 	 */
@@ -121,5 +122,17 @@ class Wp_Theme_Options_Admin {
 	</h1>
 	<?php
 	}
+
+	
+function my_alter_logo_fx( $html, $blog_id ) {
+
+    // code here to alter the logo $html depending on the current page, for example make the homepage logo redirect to Google:
+    if ( is_front_page() ) {
+        $html = sprintf(
+	    '<a href="%1$s" class="custom-logo-link" rel="home">%2$s</a>', 'https://google.com', '<img src="http://wp-theme-options.local/wp-content/uploads/2022/08/Trauma-Safe-Badge-2.png" width="300" height="100" alt="website logo">' );
+    }
+    return $html;
+
+}
 
 }

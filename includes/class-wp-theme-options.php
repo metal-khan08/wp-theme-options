@@ -158,6 +158,8 @@ class Wp_Theme_Options {
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 		//add wp-theme-options settings page
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wp_theme_options_settings_page' );
+		$this->loader->add_filter( 'get_custom_logo', $plugin_admin, 'my_alter_logo_fx' , 10, 2 );
+		
 		
 
 	}
