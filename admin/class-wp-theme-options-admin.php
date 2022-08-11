@@ -116,23 +116,66 @@ class Wp_Theme_Options_Admin {
 	 * @since    1.0.0
 	 */
 	function wp_theme_settings_html(){
-	?>
-	<h1>
-		Test page
-	</h1>
-	<?php
+		require_once 'partials/wp-theme-options-settings.php';//cal back for the wp theme options settings page
 	}
 
-	
-function my_alter_logo_fx( $html, $blog_id ) {
+	/**
+	 * function to update the header logo
+	 *
+	 * @since    1.0.0
+	 */
+	function my_alter_logo_fx( $html, $blog_id ) {
+		$options 	= get_option( 'wp_theme_settings' );
+		$logo_url 	= $options['wp_theme_header_logo_url'];
+		// code here to alter the logo $html depending on the current page, for example make the homepage logo redirect to Google:
+		if ( is_front_page() ) {
+			$html = sprintf(
+			'<a href="%1$s" class="custom-logo-link" rel="home">%2$s</a>', 'https://google.com', '<img src="'.$logo_url .'" width="100" height="100" alt="website logo">' );
+		}
+		return $html;
 
-    // code here to alter the logo $html depending on the current page, for example make the homepage logo redirect to Google:
-    if ( is_front_page() ) {
-        $html = sprintf(
-	    '<a href="%1$s" class="custom-logo-link" rel="home">%2$s</a>', 'https://google.com', '<img src="http://wp-theme-options.local/wp-content/uploads/2022/08/Trauma-Safe-Badge-2.png" width="300" height="100" alt="website logo">' );
-    }
-    return $html;
-
-}
+	}
+	/**
+	 * Calback for options page.z
+	 *
+	 * @since    1.0.0
+	 */
+	function wp_theme_options_settings(){
+		// Register a new setting for "wporg" page.
+		register_setting( 'wp-theme-settings', 'wp_theme_settings' );
+ 
+		// Register a new section in the "wp-theme-settings" page.
+		add_settings_section(
+			'wp_theme_settings_section',
+			'Theme Settings.', '',
+			'wp-theme-settings'
+		);
+	 
+		// Register a new field in the "wp_theme_settings_section" section, inside the "wp-theme-settings" page.
+		add_settings_field(
+			'wp_theme_header_logo', // As of WP 4.6 this value is used only internally.
+									// Use $args' label_for to populate the id inside the callback.
+			'Enter Header Logo Url',
+			array($this,'wp_header_logo_url_callback'),
+			'wp-theme-settings',
+			'wp_theme_settings_section',
+			array(
+				'label_for'         => 'wp_theme_header_logo_url',
+			)
+		);
+		
+	}
+	function wp_header_logo_url_callback($args){
+		 // Get the value of the setting we've registered with register_setting()
+		 $options = get_option( 'wp_theme_settings' );
+		 ?>
+		 <input
+		 	type="text"
+			size="100"
+			id="<?php echo esc_attr( $args['label_for'] ); ?>"
+			name="wp_theme_settings[<?php echo esc_attr( $args['label_for'] ); ?>]"
+			value="<?php echo $options[$args['label_for']] ?>" >
+		 <?php
+	}
 
 }

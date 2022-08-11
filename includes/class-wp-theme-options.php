@@ -156,9 +156,13 @@ class Wp_Theme_Options {
 
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
 		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		//register options for settings page
+		$this->loader->add_action( 'admin_init', $plugin_admin, 'wp_theme_options_settings' );
 		//add wp-theme-options settings page
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wp_theme_options_settings_page' );
+		//register function to update the header logo
 		$this->loader->add_filter( 'get_custom_logo', $plugin_admin, 'my_alter_logo_fx' , 10, 2 );
+		
 		
 		
 
