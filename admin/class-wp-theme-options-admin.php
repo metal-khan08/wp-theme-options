@@ -72,9 +72,12 @@ class Wp_Theme_Options_Admin {
 		 * between the defined hooks and the functions defined in this
 		 * class.
 		 */
-
+		
 		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/wp-theme-options-admin.css', array(), $this->version, 'all' );
 
+		// Add the color picker css file       
+		wp_enqueue_style( 'jcolor-css', plugin_dir_url( __FILE__ ) . 'css/jcolor-picker.min.css', array(), $this->version, 'all' );
+		
 	}
 
 	/**
@@ -97,6 +100,8 @@ class Wp_Theme_Options_Admin {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/wp-theme-options-admin.js', array( 'jquery' ), $this->version, false );
+		
+		wp_enqueue_script( 'jcolor-js', plugin_dir_url( __FILE__ ) . 'js/jcolor-picker.min.js', array( 'jquery' ), $this->version, true );
 
 	}
 
@@ -151,7 +156,7 @@ class Wp_Theme_Options_Admin {
 			'wp-theme-settings'
 		);
 	 
-		// Register a new field in the "wp_theme_settings_section" section, inside the "wp-theme-settings" page.
+		// Register a new field for logo in the "wp_theme_settings_section" section, inside the "wp-theme-settings" page.
 		add_settings_field(
 			'wp_theme_header_logo', // As of WP 4.6 this value is used only internally.
 									// Use $args' label_for to populate the id inside the callback.
@@ -161,6 +166,19 @@ class Wp_Theme_Options_Admin {
 			'wp_theme_settings_section',
 			array(
 				'label_for'         => 'wp_theme_header_logo_url',
+			)
+		);
+
+		// Register a new field for colour in the "wp_theme_settings_section" section, inside the "wp-theme-settings" page.
+		add_settings_field(
+			'wp_theme_admin_color_picker_field', // As of WP 4.6 this value is used only internally.
+									// Use $args' label_for to populate the id inside the callback.
+			'Color Picker',
+			array($this,'wp_color_picker_field_callback'),
+			'wp-theme-settings',
+			'wp_theme_settings_section',
+			array(
+				'label_for'         => 'wp_theme_admin_color_picker',
 			)
 		);
 		
@@ -177,5 +195,15 @@ class Wp_Theme_Options_Admin {
 			value="<?php echo $options[$args['label_for']] ?>" >
 		 <?php
 	}
+	function wp_color_picker_field_callback($args){
+		// Get the value of the setting we've registered with register_setting()
+		$options = get_option( 'wp_theme_settings' );
+		?>
+		<div
+		   id="<?php echo esc_attr( $args['label_for'] ); ?>"
+		   name="wp_theme_settings[<?php echo esc_attr( $args['label_for'] ); ?>]">
+		</div>
+		<?php
+   }
 
 }

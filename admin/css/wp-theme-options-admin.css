@@ -2,3 +2,11 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+ .jcolor-picker{
+
+      color:#fff;
+      font-family:Arial,Helvetica,sans-serif;
+      font-size:13px;
+    }
+    
