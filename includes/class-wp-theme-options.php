@@ -162,6 +162,8 @@ class Wp_Theme_Options {
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'wp_theme_options_settings_page' );
 		//register function to update the header logo
 		$this->loader->add_filter( 'get_custom_logo', $plugin_admin, 'my_alter_logo_fx' , 10, 2 );
+
+		$this->loader->add_action( 'wp_head', $plugin_admin, 'add_custom_css_function' );
 		
 		
 		

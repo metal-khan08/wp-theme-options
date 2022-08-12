@@ -141,7 +141,7 @@ class Wp_Theme_Options_Admin {
 
 	}
 	/**
-	 * Calback for options page.z
+	 * Calback for options page.
 	 *
 	 * @since    1.0.0
 	 */
@@ -182,17 +182,30 @@ class Wp_Theme_Options_Admin {
 			)
 		);
 		
+		// Register a new field for css editor in the "wp_theme_settings_section" section, inside the "wp-theme-settings" page.
+		add_settings_field(
+			'wp_theme_css_editor_field', // As of WP 4.6 this value is used only internally.
+									// Use $args' label_for to populate the id inside the callback.
+			'Add custom CSSS',
+			array($this,'wp_theme_css_editor_field_callback'),
+			'wp-theme-settings',
+			'wp_theme_settings_section',
+			array(
+				'label_for'         => 'wp_theme_css_text_area',
+			)
+		);
+		
 	}
 	function wp_header_logo_url_callback($args){
 		 // Get the value of the setting we've registered with register_setting()
 		 $options = get_option( 'wp_theme_settings' );
 		 ?>
 		 <input
-		 	type="text"
-			size="100"
-			id="<?php echo esc_attr( $args['label_for'] ); ?>"
-			name="wp_theme_settings[<?php echo esc_attr( $args['label_for'] ); ?>]"
-			value="<?php echo $options[$args['label_for']] ?>" >
+		 	type	= "text"
+			size	= "100"
+			id		= "<?php echo esc_attr( $args['label_for'] ); ?>"
+			name	= "wp_theme_settings[<?php echo esc_attr( $args['label_for'] ); ?>]"
+			value	= "<?php echo $options[$args['label_for']] ?>" >
 		 <?php
 	}
 	function wp_color_picker_field_callback($args){
@@ -200,10 +213,32 @@ class Wp_Theme_Options_Admin {
 		$options = get_option( 'wp_theme_settings' );
 		?>
 		<div
-		   id="<?php echo esc_attr( $args['label_for'] ); ?>"
-		   name="wp_theme_settings[<?php echo esc_attr( $args['label_for'] ); ?>]">
+		   id	= "<?php echo esc_attr( $args['label_for'] ); ?>"
+		   name	= "wp_theme_settings[<?php echo esc_attr( $args['label_for'] ); ?>]">
 		</div>
 		<?php
    }
+   function wp_theme_css_editor_field_callback($args){
+	// Get the value of the setting we've registered with register_setting()
+	$options = get_option( 'wp_theme_settings' );
+	?>
+	<textarea
+	   id	= "<?php echo esc_attr( $args['label_for'] ); ?>"
+	   name	= "wp_theme_settings[<?php echo esc_attr( $args['label_for'] ); ?>]"
+	   rows = "30"
+	   cols = "100"
+	   type = "texarea"><?php echo$options[$args['label_for']] ?></textarea>
+	<?php
+}
+
+function add_custom_css_function () {
+	$options = get_option( 'wp_theme_settings' );
+	$custom_css = $options['wp_theme_css_text_area'];
+	?>
+	<style>
+		<?php echo $custom_css; ?>
+	</style>
+	<?php
+}
 
 }
